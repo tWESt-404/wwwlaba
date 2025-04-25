@@ -1,0 +1,9 @@
+from django.urls import path
+from .views import RegistrationView, RegistrationSuccessView
+
+app_name = 'registration'
+
+urlpatterns = [
+    path('', RegistrationView.as_view(), name='form'),
+    path('success/', RegistrationSuccessView.as_view(), name='success'),
+]
