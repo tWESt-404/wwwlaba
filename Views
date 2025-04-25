@@ -1,0 +1,28 @@
+from django.views.generic import FormView, TemplateView
+from django.urls import reverse_lazy
+from .forms import RegistrationForm
+from .models import UserProfile
+
+class RegistrationView(FormView):
+    template_name = 'registration/form.html'
+    form_class = RegistrationForm
+    success_url = reverse_lazy('registration:success')
+
+    def form_valid(self, form):
+        # Save the user
+        user = form.save(commit=False)
+        user.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Регистрация'
+        return context
+
+class RegistrationSuccessView(TemplateView):
+    template_name = 'registration/success.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Успешная регистрация'
+        return context
